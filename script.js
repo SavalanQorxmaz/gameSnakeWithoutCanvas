@@ -9,7 +9,28 @@ frame.style.border = "1px solid black";
 frame.style.margin = "100px auto auto auto";
 frame.style.display = "flex";
 frame.style.flexWrap = "wrap";
+frame.style.position = "relative";
 body.appendChild(frame);
+
+
+// POPUP
+
+const popup = document.createElement("div");
+popup.style.position = "absolute";
+popup.style.top = "0px";
+popup.style.left = "0px";
+popup.style.bottom = "0px";
+popup.style.right = "0px";
+popup.style.backgroundColor = "rgba(156, 133, 145, 0.29)";
+popup.style.textAlign = "center"
+popup.innerHTML = `<br><br><hr> START - PAUSE >>>>>>>>>> SPACE <hr><br><br><hr>
+NEW GAME >>>>>>>>>>>>>>>> ENTER <hr>`
+popup.style.display = "block"
+
+
+
+frame.appendChild(popup);
+
 
 // XANALAR
 
@@ -53,97 +74,133 @@ foodArray[2] = Number(foodArray[2]);
 
 let arrow = 0;
 let flag = false;
+let animation = false;
 
+
+
+document.addEventListener("keydown", (e) => {
+    if(e.key == " "){
+        if(animation == true){
+            popup.style.display = "block";
+            animation = false;
+           
+        }
+        else  {
+            popup.style.display = "none";
+            animation = true;
+           
+          }
+              } 
+
+
+              if(e.key == "Enter"){
+                if(animation == false){
+                    location.reload();
+                    popup.style.display = "none";
+                }
+              }
+
+    })
  
 const moveSnake = setInterval (() => {
 
-   
 
-    document.addEventListener("keydown", (e) => {
 
-        switch(e.key){
-            case "ArrowRight": if(arrow != 4){arrow = 2};
-            break;
-            case "ArrowDown": if(arrow != 1){arrow = 3};
-            break;
-            case "ArrowLeft": if(arrow != 2){arrow = 4};
-            break;
-            case "ArrowUp": if(arrow != 3){arrow = 1};
-            break;
-            default: arrow = 0;
-        }
+    if(animation){
 
-    })
-   
-            switch(arrow){
-                case 1: snakeArray[1]--
+       
+    
+       
+        document.addEventListener("keydown", (e) => {
+       
+                  
+            switch(e.key){
+                case "ArrowRight": if(arrow != 4){arrow = 2};
                 break;
-                case 2: snakeArray[2]++
+                case "ArrowDown": if(arrow != 1){arrow = 3};
                 break;
-                case 3: snakeArray[1] ++
+                case "ArrowLeft": if(arrow != 2){arrow = 4};
                 break;
-                case 4: snakeArray[2]--
+                case "ArrowUp": if(arrow != 3){arrow = 1};
                 break;
+               
+                // default: arrow = 0;
             }
-        
-        
-            
-            if(snakeArray[1] > 25){
-                snakeArray[1] = 1
-            }
-            if(snakeArray[1] < 1){
-                snakeArray[1] = 25
-            }
-           if(snakeArray[2] > 25){
-            snakeArray[2] = 1
-        }
-        if(snakeArray[2] < 1){
-            snakeArray[2] = 25
-        }
-        
-        snake.unshift(document.getElementById(`square-${snakeArray[1]}-${snakeArray[2]}`)) 
-
-        if((foodArray[1] != snakeArray[1]) || (foodArray[2] != snakeArray[2])){
- 
-            snake.pop().style.backgroundColor = "white";
- 
-        }
-        else {
-           
-            food = frame.children[Math.ceil(Math.random() * 626)];
-            snake.map((value) => {
-
-                
-                while(value.id == food.id){
-                    // console.log("kesisdi")
-                    // console.log(snake)
-                    // console.log(food)
-                    food = frame.children[Math.ceil(Math.random() * 626)];
-                   
-                }
-                foodArray = food.id.split("-");
-                foodArray[1] = Number(foodArray[1]);
-                foodArray[2] = Number(foodArray[2]);
-                food.style.backgroundColor = "#078387";
-            })
-        }
-           
-
-        snake.map((value) => {
-            value.style.backgroundColor = "#210103";
-            snake[0].style.backgroundColor = "#01120c"
-            for(let index = 1;index<snake.length;index++){
-                if(snake[0].id == snake[index].id){
-                   
-                    clearInterval(moveSnake)
-                
-                }
-            }
-  
+    
         })
+        
+                switch(arrow){
+                    case 1: snakeArray[1]--
+                    break;
+                    case 2: snakeArray[2]++
+                    break;
+                    case 3: snakeArray[1] ++
+                    break;
+                    case 4: snakeArray[2]--
+                    break;
+                }
+            
+            
+                
+                if(snakeArray[1] > 25){
+                    snakeArray[1] = 1
+                }
+                if(snakeArray[1] < 1){
+                    snakeArray[1] = 25
+                }
+               if(snakeArray[2] > 25){
+                snakeArray[2] = 1
+            }
+            if(snakeArray[2] < 1){
+                snakeArray[2] = 25
+            }
+            
+            snake.unshift(document.getElementById(`square-${snakeArray[1]}-${snakeArray[2]}`)) 
+    
+            if((foodArray[1] != snakeArray[1]) || (foodArray[2] != snakeArray[2])){
+     
+                snake.pop().style.backgroundColor = "white";
+     
+            }
+            else {
+               
+                food = frame.children[Math.ceil(Math.random() * 626)];
+                snake.map((value) => {
+    
+                    
+                    while(value.id == food.id){
+                        // console.log("kesisdi")
+                        // console.log(snake)
+                        // console.log(food)
+                        food = frame.children[Math.ceil(Math.random() * 626)];
+                       
+                    }
+                    foodArray = food.id.split("-");
+                    foodArray[1] = Number(foodArray[1]);
+                    foodArray[2] = Number(foodArray[2]);
+                    food.style.backgroundColor = "#078387";
+                })
+            }
+               
+    
+            snake.map((value) => {
+                value.style.backgroundColor = "#210103";
+                snake[0].style.backgroundColor = "#01120c"
+                for(let index = 1;index<snake.length;index++){
+                    if(snake[0].id == snake[index].id){
+                       
+                        clearInterval(moveSnake);
+                        popup.style.display = "block"
 
 
-   
+                    
+                    }
+                }
+      
+            })
+    
+
+    }
    
 }, 200)
 
